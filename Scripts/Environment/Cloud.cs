@@ -73,8 +73,7 @@ public class Cloud : StaticBody2D
 	}
 
 	private float GetSineNoise(float x_){
-		var xWorld_ = width/((float)detail)*x_;
-		if(!InRange()){return 1;}
+		//if(!InRange()){return 1;}
 		var time = OS.GetTicksMsec()/1000f;
 		return (noise.GetNoise2d(x_/10f,time)-1f)*waveNoiseAmp+
 		(noise.GetNoise2d(x_*2f+2.1f,time+202.13f)-1f)*waveNoise2Amp;

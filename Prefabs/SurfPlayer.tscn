@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://icon.png" type="Texture" id=1]
 [ext_resource path="res://Components/SurfController.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scripts/Physics/SurfPlayer.cs" type="Script" id=3]
 [ext_resource path="res://Components/SurfBoard.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scripts/Misc/Cam.cs" type="Script" id=5]
+[ext_resource path="res://Scripts/Gameplay/TrickPerformer.cs" type="Script" id=6]
 
 [sub_resource type="CircleShape2D" id=1]
 
@@ -44,3 +45,9 @@ script = ExtResource( 5 )
 [node name="SurfBoard" parent="." instance=ExtResource( 4 )]
 
 [node name="TweenThrow" type="Tween" parent="."]
+
+[node name="TrickPerformer" type="Node2D" parent="."]
+script = ExtResource( 6 )
+trickBoostSpeed = 2000.0
+
+[node name="BoostTween" type="Tween" parent="TrickPerformer"]

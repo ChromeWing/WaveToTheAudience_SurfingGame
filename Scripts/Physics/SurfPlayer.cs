@@ -51,6 +51,10 @@ public class SurfPlayer : KinematicBody2D
 	[Export]
 	public float tweenTraversalStateSpeed = 1f;
 
+	//EVENTS
+	public Action<TrickType> promptedTrick;
+	public Action startedSurfing;
+
 	private float tweenTraction = .8f;
 	private float tweenBoost = 50;
 
@@ -81,6 +85,16 @@ public class SurfPlayer : KinematicBody2D
 	public bool Throwing { get{ return throwingProgress>0 && throwingProgress<.5f; }}
 	public bool Returning { get{ return throwingProgress>=.5f; }}
 
+	public bool Surfing { get{ 
+		return moveState == TraversalState.SWIMMING || 
+		moveState == TraversalState.GRINDING || 
+		moveState == TraversalState.DRAGGING;
+	}}
+
+	public bool Airborne { get{
+		return !HasBuoyancy && moveState != TraversalState.LAND && !Surfing;
+	}}
+
 	public float AimingSwim { get{ return Math.Abs(aim.AngleTo(speed));}}
 
 	public float angleDelta { get{ return Mathf.Clamp(surfAim.AngleTo(aim)*.5f,-(float)Math.PI*.08f,(float)Math.PI*.08f); } }
@@ -98,6 +112,9 @@ public class SurfPlayer : KinematicBody2D
 
 	private TraversalState GetMoveState(){
 		if(SwimReady && surf && !Throwing){
+			if(!Surfing){
+				startedSurfing?.Invoke();
+			}
 			var aimSwim = AimingSwim;
 			if(aimSwim<Mathf.Deg2Rad(swimAccuracy)){
 				return TraversalState.SWIMMING;
@@ -231,6 +248,10 @@ public class SurfPlayer : KinematicBody2D
 		throwingProgress = 0;
 	}
 
+	public void PushPlayer(Vector2 force){
+		speed += force;
+	}
+
 
 	private void OnInput(SurfController.Gamepad gamepad){
 		if(surf && !gamepad.surf){
@@ -245,6 +266,19 @@ public class SurfPlayer : KinematicBody2D
 		aim = aim.Normalized();
 		if(gamepad.pressedThrow){
 			//Throw();
+		}
+
+		if(gamepad.pressedTrickLeft){
+			promptedTrick?.Invoke(TrickType.LEFT);
+		}
+		if(gamepad.pressedTrickRight){
+			promptedTrick?.Invoke(TrickType.RIGHT);
+		}
+		if(gamepad.pressedTrickUp){
+			promptedTrick?.Invoke(TrickType.UP);
+		}
+		if(gamepad.pressedTrickDown){
+			promptedTrick?.Invoke(TrickType.DOWN);
 		}
 		
 	}
