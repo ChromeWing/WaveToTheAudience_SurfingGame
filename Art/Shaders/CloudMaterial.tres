@@ -1,0 +1,87 @@
+[gd_resource type="ShaderMaterial" load_steps=8 format=2]
+
+[ext_resource path="res://Art/Sprites/CloudDepthGradient.png" type="Texture" id=1]
+
+[sub_resource type="Shader" id=6]
+code = "// NOTE: Shader automatically converted from Godot Engine 3.5.stable.mono's CanvasItemMaterial.
+
+shader_type canvas_item;
+render_mode blend_mix;
+
+uniform float uvScale;
+uniform float overlayScale;
+uniform vec4 cloudColor : hint_color;
+uniform sampler2D depthGradient : hint_black;
+uniform sampler2D mirror;
+uniform sampler2D mirror2;
+uniform sampler2D mirror3;
+
+
+void fragment(){
+	
+	vec4 mask1 = texture(mirror,UV*uvScale+vec2(TIME*.02,TIME*.01));
+	vec4 mask2 = texture(mirror2,UV*uvScale-vec2(TIME*.013,TIME*.022));
+	vec4 overlay = texture(mirror3,UV*overlayScale-vec2(TIME*.011,TIME*.012));
+	
+	overlay.rgb = 1.0 - (overlay.rgb * .7);
+	
+	vec4 aqua = mask1*mask2;
+	float quantify = 1.4;
+	float quantifyEmit = 1.0;
+	aqua *= quantify;
+	aqua = vec4(round(aqua.r)+quantifyEmit,round(aqua.g)+quantifyEmit,round(aqua.b)+quantifyEmit,round(aqua.a));
+	aqua /= quantify;
+	
+	float emit = .5;
+	
+	aqua += vec4(emit,emit,emit,0);
+	aqua = vec4(aqua.r,aqua.g,aqua.b,.8);
+	COLOR = aqua;
+	COLOR *= cloudColor;
+	COLOR.rgb = COLOR.rgb * overlay.r;
+	
+	if(UV.y<.01){
+		COLOR = vec4(COLOR.r*.6,COLOR.g*.6,COLOR.b*.6,1.0);
+	}else{
+		float depth = UV.y;
+		COLOR.rgb = COLOR.rgb * texture(depthGradient, vec2(depth,0.0)).rgb;
+	}
+	
+}
+
+"
+
+[sub_resource type="OpenSimplexNoise" id=2]
+seed = 21
+octaves = 1
+period = 55.7
+persistence = 0.522
+lacunarity = 2.29
+
+[sub_resource type="NoiseTexture" id=3]
+width = 1500
+height = 1500
+seamless = true
+noise = SubResource( 2 )
+
+[sub_resource type="OpenSimplexNoise" id=4]
+seed = 17
+octaves = 2
+
+[sub_resource type="NoiseTexture" id=5]
+width = 1600
+height = 1600
+seamless = true
+noise = SubResource( 4 )
+
+[sub_resource type="GradientTexture" id=7]
+
+[resource]
+shader = SubResource( 6 )
+shader_param/uvScale = 1.0
+shader_param/overlayScale = 1.0
+shader_param/cloudColor = Color( 1, 1, 1, 1 )
+shader_param/depthGradient = ExtResource( 1 )
+shader_param/mirror = SubResource( 3 )
+shader_param/mirror2 = SubResource( 5 )
+shader_param/mirror3 = SubResource( 7 )

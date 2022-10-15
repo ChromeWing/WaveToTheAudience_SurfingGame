@@ -1,0 +1,209 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Prefabs/Cloud.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Prefabs/Ocean.tscn" type="PackedScene" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 317.5, 7151 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 332, 7128 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 1425.25, 682.5 )
+
+[node name="Level" type="Node2D"]
+
+[node name="BoundaryStart" type="StaticBody2D" parent="."]
+position = Vector2( -1763, -2149 )
+scale = Vector2( 1, 2.96 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BoundaryStart"]
+position = Vector2( 238.5, -1625 )
+shape = SubResource( 1 )
+
+[node name="BoundaryEnd" type="StaticBody2D" parent="."]
+position = Vector2( 48948, -2086 )
+scale = Vector2( 1, 2.76 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BoundaryEnd"]
+position = Vector2( 257, -1611 )
+shape = SubResource( 3 )
+
+[node name="BoundaryBottom" type="StaticBody2D" parent="."]
+position = Vector2( -509, 1045 )
+scale = Vector2( 500, 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BoundaryBottom"]
+position = Vector2( 1324.75, 2140 )
+shape = SubResource( 2 )
+
+[node name="Ocean" parent="." instance=ExtResource( 2 )]
+position = Vector2( -3353, 249 )
+updateRate = 2
+
+[node name="OceanBackground" parent="." instance=ExtResource( 2 )]
+position = Vector2( -3353, 48 )
+z_index = -1
+collision_layer = 0
+collision_mask = 0
+seed = 222
+updateRate = 2
+updateRateOffset = 1
+width = 58000.0
+detail = 100
+waveFreq = 5.0
+
+[node name="Area2D" parent="OceanBackground" index="1"]
+monitoring = false
+monitorable = false
+
+[node name="OceanForeground" parent="." instance=ExtResource( 2 )]
+position = Vector2( -3375, 657 )
+z_index = 5
+collision_layer = 0
+collision_mask = 0
+seed = 333
+updateRate = 2
+updateRateOffset = 1
+width = 58000.0
+detail = 100
+waveFreq = 5.0
+
+[node name="Area2D" parent="OceanForeground" index="1"]
+monitoring = false
+monitorable = false
+
+[node name="Clouds" type="Node2D" parent="."]
+
+[node name="Cloud" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 1292, -484 )
+
+[node name="Cloud2" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 3926, -429 )
+
+[node name="Cloud3" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 10280, -1049 )
+
+[node name="Cloud4" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 19119, -469 )
+
+[node name="Cloud5" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 20157, -1480 )
+
+[node name="Cloud6" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 5976, -975 )
+
+[node name="Cloud7" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 10364, -108 )
+
+[node name="Cloud8" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 2390, -934 )
+
+[node name="Cloud9" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 14223, -774 )
+
+[node name="Cloud10" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 29365, -36 )
+
+[node name="Cloud11" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 32637, -390 )
+
+[node name="Cloud12" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 29320, -972 )
+
+[node name="Cloud13" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 32370, -654 )
+
+[node name="Cloud14" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 25689, -510 )
+
+[node name="Cloud15" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 15524, -1444 )
+
+[node name="Cloud16" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 40239, -972 )
+
+[node name="Cloud17" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 41960, -977 )
+
+[node name="Cloud18" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 46701, -1228 )
+
+[node name="Cloud19" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 36859, -1228 )
+
+[node name="Cloud20" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 40319, 145 )
+
+[node name="Cloud21" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 38610, -1563 )
+
+[node name="Cloud22" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 39568, -1143 )
+
+[node name="Cloud23" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 45279, -2328 )
+
+[node name="Cloud24" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 26242, -1574 )
+
+[node name="Cloud25" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 25987, -1148 )
+
+[node name="Cloud26" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 18052, -425 )
+
+[node name="Cloud27" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 17905, 73 )
+
+[node name="Cloud28" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 22431, -1507 )
+
+[node name="Cloud29" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 32883, -1507 )
+
+[node name="Cloud30" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 35257, -1247 )
+
+[node name="Cloud31" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 28525, -508 )
+
+[node name="Cloud32" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 45838, 138 )
+
+[node name="Cloud33" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 22024, -293 )
+
+[node name="Cloud34" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 6866, -41 )
+
+[node name="Cloud35" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 9703, -292 )
+
+[node name="Cloud36" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 7312, -1533 )
+
+[node name="Cloud37" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 21500, -1105 )
+
+[node name="Cloud38" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 12341, -814 )
+
+[node name="Cloud39" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 12721, -830 )
+
+[node name="Cloud40" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 34452, 248 )
+
+[node name="Cloud41" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 18627, -921 )
+
+[node name="Cloud42" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 28897, -1504 )
+
+[node name="Cloud43" parent="Clouds" instance=ExtResource( 1 )]
+position = Vector2( 37113, -286 )
+
+[editable path="OceanBackground"]
+[editable path="OceanForeground"]

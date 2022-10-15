@@ -1,0 +1,44 @@
+[gd_resource type="Shader" format=2]
+
+[resource]
+code = "// NOTE: Shader automatically converted from Godot Engine 3.5.stable.mono's CanvasItemMaterial.
+
+shader_type canvas_item;
+render_mode blend_mix;
+
+uniform vec2 uvOffset;
+uniform float uvRotation;
+uniform vec4 boardColor : hint_color;
+uniform sampler2D gradientMask;
+uniform sampler2D mirror;
+
+
+
+
+vec2 rotateUV(vec2 uv, vec2 pivot, float rotation) {
+    float cosa = cos(rotation);
+    float sina = sin(rotation);
+    uv -= pivot;
+    return vec2(
+        cosa * uv.x - sina * uv.y,
+        cosa * uv.y + sina * uv.x 
+    ) + pivot;
+}
+
+void fragment(){
+	vec4 mask1 = texture(mirror,UV*0.7);
+	vec4 mask2 = texture(gradientMask,UV);
+	COLOR = vec4(0.0,0.0,0.0,0.0);
+	if(mask1.r * mask2.r > .16){
+		COLOR = vec4(0.0,0.0,0.0,1.0);
+	}
+	if(mask1.r * mask2.r > .2){
+		COLOR = texture(TEXTURE,rotateUV(UV*.5,vec2(.5,.5),uvRotation)+uvOffset);
+	}
+	
+	COLOR *= boardColor;
+	
+	
+}
+
+"

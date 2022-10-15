@@ -1,0 +1,84 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Art/Sprites/board.png" type="Texture" id=1]
+[ext_resource path="res://Art/Sprites/boardGradient.png" type="Texture" id=2]
+[ext_resource path="res://Scripts/Misc/SurfBoard.cs" type="Script" id=3]
+
+[sub_resource type="CircleShape2D" id=6]
+
+[sub_resource type="Shader" id=2]
+code = "// NOTE: Shader automatically converted from Godot Engine 3.5.stable.mono's CanvasItemMaterial.
+
+shader_type canvas_item;
+render_mode blend_mix;
+
+uniform vec2 uvOffset;
+uniform float uvRotation;
+uniform vec4 boardColor : hint_color;
+uniform sampler2D gradientMask;
+uniform sampler2D mirror;
+
+
+
+
+vec2 rotateUV(vec2 uv, vec2 pivot, float rotation) {
+    float cosa = cos(rotation);
+    float sina = sin(rotation);
+    uv -= pivot;
+    return vec2(
+        cosa * uv.x - sina * uv.y,
+        cosa * uv.y + sina * uv.x 
+    ) + pivot;
+}
+
+void fragment(){
+	vec4 mask1 = texture(mirror,UV*0.7);
+	vec4 mask2 = texture(gradientMask,UV);
+	COLOR = vec4(0.0,0.0,0.0,0.0);
+	if(mask1.r * mask2.r > .16){
+		COLOR = vec4(0.0,0.0,0.0,1.0);
+	}
+	if(mask1.r * mask2.r > .2){
+		COLOR = texture(TEXTURE,rotateUV(UV*.5,vec2(.5,.5),uvRotation)+uvOffset);
+	}
+	
+	COLOR *= boardColor;
+	
+	
+}
+
+"
+
+[sub_resource type="OpenSimplexNoise" id=4]
+seed = 89
+period = 91.6
+persistence = 0.167
+lacunarity = 2.17
+
+[sub_resource type="NoiseTexture" id=5]
+noise = SubResource( 4 )
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = SubResource( 2 )
+shader_param/uvOffset = Vector2( 1.605, 1.322 )
+shader_param/uvRotation = 6.033
+shader_param/boardColor = Color( 0.878431, 0.65098, 0.0470588, 1 )
+shader_param/gradientMask = ExtResource( 2 )
+shader_param/mirror = SubResource( 5 )
+
+[node name="SurfBoard" type="KinematicBody2D"]
+position = Vector2( 0, 15 )
+collision_layer = 2
+collision_mask = 2
+script = ExtResource( 3 )
+holdDistance = 15.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 6 )
+
+[node name="Sprite" type="Sprite" parent="."]
+material = SubResource( 3 )
+position = Vector2( 0, 20 )
+scale = Vector2( 0.6, 0.6 )
+z_index = -1
+texture = ExtResource( 1 )
